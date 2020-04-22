@@ -30,7 +30,9 @@ class TicTacToe
     @cells[index] = token
   end
   
-  def 
+  def taken?(index)
+    @cells[index.to_i - 1] == "X" || cells[index.to_i - 1] == "O"
+  end
   
   
 end
