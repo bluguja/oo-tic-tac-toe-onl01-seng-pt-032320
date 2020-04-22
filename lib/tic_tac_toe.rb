@@ -55,7 +55,11 @@ class TicTacToe
   end 
   
   def turn_count 
-    @cells.count{
+    @cells.count {|x| x!=" "}
   end
+  
+  def current_player
+  end 
+  
   
 end
