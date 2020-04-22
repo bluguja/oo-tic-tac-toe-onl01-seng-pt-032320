@@ -54,7 +54,8 @@ class TicTacToe
     end 
   end 
   
-  def turn_count
+  def turn_count 
+    @cells.count{
   end
   
 end
