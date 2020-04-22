@@ -30,7 +30,7 @@ class TicTacToe
     @cells[index] = token
   end
   
-  
+  def 
   
   
 end
