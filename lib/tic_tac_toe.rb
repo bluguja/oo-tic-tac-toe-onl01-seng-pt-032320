@@ -1,70 +1,119 @@
 class TicTacToe
- attr_accessor :cells
- WIN_COMBINATIONS =[
-   [0,1,2]
-   [3,4,5]
-   [6,7,8]
-   [0,3,6]
-   [2,3.5]
-   [1,4,7]
-   [3,3,1]
-   ]
-  end
+  attr_accessor :board
+
   def initialize
-    @cells = Array.new =(9," ")
+    @board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
   end
 
+  WIN_COMBINATIONS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [6, 4, 2],
+  [0, 4, 8]
+]
+
   def display_board
-    puts " #{@cells[0]} | #{@cells[1]} | #{@cells[2]} "
-    puts "-----------"
-    puts " #{@cells[3]} | #{@cells[4]} | #{@cells[5]} "
-    puts "-----------"
-    puts " #{@cells[6]} | #{@cells[7]} | #{@cells[8]} "
+    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
+    puts " ----------- "
+    puts " #{@board[3]} | #{@board[4]} | #{@board[5]} "
+    puts " ----------- "
+    puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
-  
+
   def input_to_index(input)
-    input_to_i -1
+    input.to_i - 1
   end
-  
-  def move(index,token ="X")
-    @cells[index] = token
+
+  def move(position, token='X')
+    @board[position] = token
   end
-  
-  def taken?(index)
-    @cells[index.to_i - 1] == "X" || cells[index.to_i - 1] == "O"
-    
-    # altarnative
-    # def position_taken?(index)
-    #   !(@cells[index] == " ")? true : false 
-    # end
+
+  def position_taken?(input)
+    @board[input] == "X" || @board[input] == "O"
   end
-  
-  def valid_move?(index)
-    (index .between?(0,8)) && ! position_taken?(index))? true : false
+
+  def valid_move?(input)
+    input.between?(0, 8) && !position_taken?(input)
   end
-  
+
+
   def turn
-    user_move = gets index = input_to_index
-    if valid_move?(index)
-      move(index, current_player)
-      display_board
-    else 
-      puts"reenter input"
-      turn 
-    end 
-  end 
-  
-  def turn_count 
-    @cells.count {|x| x!=" "}
+    puts "Choose a spot between 1-9"
+    spot = gets.strip
+    spot = input_to_index(spot)
+    if valid_move?(spot)
+      move(spot, current_player)
+    else
+      turn
+    end
+    display_board
   end
-  
+
+  def turn_count
+    taken = 0
+    @board.each do |i|
+      if i == "X" || i == "O"
+        taken += 1
+      end
+    end
+    return taken
+  end
+
   def current_player
-    count = turn_count
-    count.even? ? "X" : "O"
-  end 
-  
-  def won?
-    
+    player = nil
+    if turn_count() % 2 == 0
+      player = 'X'
+    else
+      player = 'O'
+    end
+    return player
   end
-  
+
+
+  def won?
+    WIN_COMBINATIONS.detect do |combo|
+      @board[combo[0]] == @board[combo[1]] &&
+      @board[combo[1]] == @board[combo[2]] &&
+      position_taken?(combo[0])
+    end
+  end
+
+  def full?
+    turn_count == 9
+  end
+
+  def draw?
+    !won? && full?
+  end
+
+  def over?
+    won? || full? || draw?
+  end
+
+  def winner
+    won = ""
+    if winner = won?
+      won = @board[winner.first]
+    end
+  end
+
+  def play
+    until over?
+      turn
+    end
+
+    if won?
+      winner = winner()
+      puts "Congratulations #{winner}!"
+    elsif draw?
+      puts "Cat's Game!"
+    end
+  end
 end
+
+game = TicTacToe.new
+game.play
