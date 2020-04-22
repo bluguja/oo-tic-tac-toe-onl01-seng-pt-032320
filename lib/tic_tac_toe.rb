@@ -32,7 +32,14 @@ class TicTacToe
   
   def taken?(index)
     @cells[index.to_i - 1] == "X" || cells[index.to_i - 1] == "O"
+    
+    # altarnative
+    # def position_taken?(index)
+    #   !(@cells[index] == " ")? true : false 
+    # end
   end
+  
+  def valid_move?(index)
   
   
 end
