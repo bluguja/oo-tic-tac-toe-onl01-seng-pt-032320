@@ -1,10 +1,13 @@
 class TicTacToe
  attr_accessor :cells
- win_combinations =[
+ WIN_COMBINATIONS =[
    [0,1,2]
    [3,4,5]
    [6,7,8]
-   
+   [0,3,6]
+  # []
+  # []
+  # []
    ]
   
   def initialize
@@ -18,4 +21,16 @@ class TicTacToe
     puts "-----------"
     puts " #{@cells[6]} | #{@cells[7]} | #{@cells[8]} "
   end
+  
+  def input_to_index(input)
+    input_to_i -1
+  end
+  
+  def move(index,token ="X")
+    @cells[index] = token
+  end
+  
+  
+  
+  
 end
